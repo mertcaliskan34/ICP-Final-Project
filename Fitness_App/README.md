@@ -1,10 +1,10 @@
 ##   Motoko Fitness App: Take Control of Your Workouts!
 
-**Description**
+### Description
 
 Empower your fitness journey with the Motoko Exercise Tracker, a user-friendly application built with the innovative Motoko programming language. This lightweight and efficient tool empowers you to meticulously record, manage, and track your workouts, ensuring you stay on top of your fitness goals.
 
-**Features**
+### Features
 
 * **Granular Exercise Logging:** Create detailed entries for each exercise, specifying the name, number of sets and repetitions, weight used (optional), targeted muscle groups, and the overall category (cardio, weightlifting, etc.). 
 * **Effortless Exercise Management:** Effortlessly add new exercises to your routine, edit existing entries to reflect changes, or simply remove exercises you no longer perform. 
