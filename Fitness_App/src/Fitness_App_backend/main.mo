@@ -7,7 +7,7 @@ import Text "mo:base/Text";
 
 actor exercise_tracker {
 
-  type Exercise {
+  type Exercise = {
     name: Text;
     sets: Nat;
     reps: Nat;
@@ -18,7 +18,7 @@ actor exercise_tracker {
   };
 
   func natHash(n: Nat) : Hash.Hash {
-    Text.hash(n)
+    Text.hash(Nat.toText(n))
   };
 
   var exercises = Map.HashMap<Nat, Exercise>(0, Nat.equal, natHash);
@@ -48,10 +48,15 @@ actor exercise_tracker {
   // Mark an exercise as completed
   public func completeExercise(id: Nat) : async () {
     ignore do ? {
-      let exercise = exercises.get(id)!;
-      exercises.put(id, {
-        ...exercise,
-        completed = true
+    let exercise = exercises.get(id)!;
+    exercises.put(id, {
+      name = exercise.name;
+      sets = exercise.sets;
+      reps = exercise.reps;
+      completed = true;
+      weight = exercise.weight;
+      target = exercise.target;
+      category = exercise.category;
       });
     }
   };
@@ -73,12 +78,14 @@ actor exercise_tracker {
 
   // Helper function for formatting exercises
   private func formatExercise(exercise: Exercise): Text {
-    let weightText = exercise.weight.map { Nat.toText($0) <> " kg" } ?? "";
-    let completedText = if exercise.completed { " +" } else { "" };
+    let completedText: Text = "";
+    if (exercise.completed) {
+    let completedText = "+";
+    };
     return (
-      "(" # Nat.toText(exercise.sets) # " sets, " # Nat.toText(exercise.reps) # " reps)" #
-      weightText #
-      ", Target: " # exercise.target # ", Category: " # exercise.category # completedText
+    "(" # Nat.toText(exercise.sets) # " sets, " # Nat.toText(exercise.reps) # " reps)" #
+    completedText #
+    ", Target: " # exercise.target # ", Category: " # exercise.category # completedText
     );
   }
 };
