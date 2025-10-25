@@ -1,34 +1,173 @@
-# ICP Final Project - Motoko Fitness App: Track Your Workouts on the Internet Computer
+# Fitness Tracker - Internet Computer Application
 
-## Overview
+[![Internet Computer](https://img.shields.io/badge/Internet%20Computer-000000?style=for-the-badge&logo=internetcomputer&logoColor=white)](https://internetcomputer.org/)
+[![Motoko](https://img.shields.io/badge/Motoko-000000?style=for-the-badge&logo=motoko&logoColor=white)](https://internetcomputer.org/docs/current/developer-docs/build/cdks/motoko-dfinity/motoko/)
+[![DFX](https://img.shields.io/badge/DFX-000000?style=for-the-badge&logo=dfinity&logoColor=white)](https://internetcomputer.org/docs/current/developer-docs/setup/install/)
 
-This project is a fitness application developed in Motoko as the final project for the Internet Computer internship bootcamp. It allows users to log, manage, and track their exercises, providing a comprehensive tool for monitoring their fitness journey. Built on the Internet Computer, this application showcases the ability to create decentralized and efficient applications.
+A decentralized fitness tracking application built on the Internet Computer using Motoko. This application allows users to create, manage, and track their workout routines in a secure, decentralized environment.
+
+## Table of Contents
+
+- [Features](#-features)
+- [Architecture](#-architecture)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [API Reference](#-api-reference)
+- [Project Structure](#-project-structure)
+- [Development](#-development)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## Features
 
-*   **Detailed Exercise Logging:** Record exercise name, sets, reps, optional weight, target muscle group, and category (cardio, weightlifting, etc.).
-*   **Exercise Management:** Add, edit, and remove exercises to customize your workout routines.
-*   **Workout Overview:** View all recorded exercises in an organized format to assess progress.
-*   **Completion Tracking:** Mark exercises as completed to track workout consistency.
-*   **Efficient Cleanup:** Remove all completed exercises to keep your workout plan streamlined.
+### Core Functionality
+- **Exercise Logging**: Create detailed exercise entries with customizable parameters
+- **Workout Management**: Add, track, and organize your fitness routines
+- **Progress Tracking**: Mark exercises as completed and monitor your consistency
+- **Data Management**: Clean up completed exercises to maintain an organized workout plan
 
-## Technical Details
+### Exercise Data Model
+Each exercise includes:
+- **Name**: Exercise identifier
+- **Sets & Reps**: Workout volume tracking
+- **Weight**: Optional weight parameter (supports bodyweight exercises)
+- **Target**: Muscle group or exercise focus
+- **Category**: Exercise classification (cardio, weightlifting, etc.)
+- **Completion Status**: Real-time progress tracking
 
-*   **Language:** Motoko
-*   **Platform:** Internet Computer
-*   **Data Storage:** Utilizes `HashMap` for efficient exercise storage and retrieval.
-*   **Unique Identifiers:** Employs a counter (`nextId`) to assign unique IDs to each exercise.
+## Architecture
 
-## Project Structure
+### Technology Stack
+- **Language**: [Motoko](https://internetcomputer.org/docs/current/developer-docs/build/cdks/motoko-dfinity/motoko/)
+- **Platform**: [Internet Computer](https://internetcomputer.org/)
+- **Development**: [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install/)
 
-*   `dfx.json`: Configuration file for the DFINITY Canister SDK.
-*   `src/Fitness_App_backend/main.mo`: Main Motoko source code for the fitness app backend.
-*   `README.md`: Project documentation (this file).
+### Data Structure
+- **Storage**: HashMap-based efficient data storage
+- **Identification**: Auto-incrementing unique ID system
+- **Type Safety**: Strongly typed Motoko data structures
+
+## Installation
+
+### Prerequisites
+- [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/setup/install/) installed
+- Internet Computer CLI tools configured
+
+### Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd "ICP Final Project"
+   ```
+
+2. **Navigate to the project directory**
+   ```bash
+   cd Fitness_App
+   ```
+
+3. **Start the local Internet Computer replica**
+   ```bash
+   dfx start
+   ```
+
+4. **Deploy the canister**
+   ```bash
+   dfx deploy
+   ```
 
 ## Usage
 
-To run this application, you will need the DFINITY Canister SDK installed. Follow the instructions in the SDK documentation to deploy the canister to the Internet Computer.
+### Basic Operations
 
-## Learning Experience
+#### Add a New Exercise
+```motoko
+// Add a new exercise with all parameters
+let exerciseId = await exercise_tracker.addExercise(
+  "Push-ups",           // name
+  3,                    // sets
+  15,                   // reps
+  null,                 // weight (null for bodyweight)
+  "Chest, Triceps",     // target
+  "Bodyweight"          // category
+);
+```
 
-This project was developed as part of the Internet Computer internship bootcamp, demonstrating the skills and knowledge acquired during the program. It represents a practical application of Motoko and the Internet Computer platform.
+#### Mark Exercise as Completed
+```motoko
+// Mark exercise as completed
+await exercise_tracker.completeExercise(exerciseId);
+```
+
+#### View All Exercises
+```motoko
+// Get formatted exercise list
+let workout = await exercise_tracker.showExercises();
+```
+
+#### Clean Up Completed Exercises
+```motoko
+// Remove all completed exercises
+await exercise_tracker.clearCompleted();
+```
+
+## API Reference
+
+### Public Functions
+
+| Function | Parameters | Return Type | Description |
+|----------|------------|-------------|-------------|
+| `getExercises()` | None | `[Exercise]` | Returns all exercises as an array |
+| `addExercise()` | `name, sets, reps, weight, target, category` | `Nat` | Adds new exercise, returns ID |
+| `completeExercise()` | `id: Nat` | `()` | Marks exercise as completed |
+| `showExercises()` | None | `Text` | Returns formatted exercise list |
+| `clearCompleted()` | None | `()` | Removes all completed exercises |
+
+### Data Types
+
+```motoko
+type Exercise = {
+  name: Text;        // Exercise name
+  sets: Nat;         // Number of sets
+  reps: Nat;         // Repetitions per set
+  completed: Bool;   // Completion status
+  weight: ?Nat;      // Optional weight
+  target: Text;      // Target muscle group
+  category: Text;    // Exercise category
+};
+```
+
+### File Descriptions
+- **`dfx.json`**: DFINITY Canister SDK configuration file
+- **`main.mo`**: Core application logic and data structures
+- **`README.md`**: Comprehensive project documentation
+
+## Development
+
+### Local Development
+1. Start the local replica: `dfx start`
+2. Deploy in development mode: `dfx deploy --mode=dev`
+3. Test functions using the DFX console or Candid UI
+
+### Testing
+- Use the DFX console for interactive testing
+- Access the Candid UI at `http://localhost:4943` (default port)
+- Test all CRUD operations through the web interface
+
+## Contributing
+
+This project was developed as part of the Internet Computer internship bootcamp, demonstrating practical application of Motoko and the Internet Computer platform.
+
+### Development Guidelines
+- Follow Motoko best practices
+- Maintain type safety
+- Document public functions
+- Test all functionality before deployment
+
+## License
+
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
+
+---
+
+**Built with Motoko on the Internet Computer**
