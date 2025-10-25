@@ -6,18 +6,6 @@
 
 A decentralized fitness tracking application built on the Internet Computer using Motoko. This application allows users to create, manage, and track their workout routines in a secure, decentralized environment.
 
-## Table of Contents
-
-- [Features](#-features)
-- [Architecture](#-architecture)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [API Reference](#-api-reference)
-- [Project Structure](#-project-structure)
-- [Development](#-development)
-- [Contributing](#-contributing)
-- [License](#-license)
-
 ## Features
 
 ### Core Functionality
